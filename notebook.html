@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>Notes App</title>
+</head>
+
+<body>
+    <style>
+        .notes,
+        form {
+            height: 100%;
+            width: 100%;
+            max-width: 500px;
+            min-width: 400px;
+            border: 1px solid red;
+        }
+
+        .show-form {
+            display: none;
+        }
+
+        @media screen and (max-width: 800px) {
+            form {
+                display: none;
+            }
+
+            .show-form {
+                position: absolute;
+                background-color: greenyellow;
+                top: 100px;
+                right: 50px;
+                height: 40px;
+                width: 40px;
+                text-align: center;
+                font-size: x-large;
+                cursor: pointer;
+                border-radius: 50%;
+                display: unset;
+            }
+        }
+
+        /* Add a style for the priority span */
+        .priority {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+
+        /* Fix the styling for radio inputs */
+        input[type='radio'] {
+            max-width: 50px;
+            display: inline;
+        }
+    </style>
+    <main class="bg-gray-200 flex justify-center items-center h-screen gap-4 p-20 relative">
+        <div class="notes p-4 rounded-md shadow-2xl bg-white overflow-scroll">
+            <h1 class="text-xl mb-4">Notes</h1>
+            <div class="notes-container flex flex-col gap-5" id="notes-container"></div>
+        </div>
+        <form class="rounded-md shadow-2xl bg-white p-4 overflow-scroll">
+            <textarea class="text-note border-2 rounded-md w-full h-40 bg-gray-200" id="text-note" cols="30"
+                rows="10"></textarea>
+            <!-- note content -->
+            <!-- note priority 1-5 -->
+            <div class="flex flex-col">
+                <h1 class="text-xl my-4">Priority</h1>
+                <div class="radio-input">
+                    <input type="radio" id="priority-1" name="priority" value="1" checked /> <label
+                        for="priority-1">Very Low</label>
+                    <div class="radio-input"><input type="radio" id="priority-2" name="priority" value="2" /> <label
+                            for="priority-2">Low</label></div>
+                    <div class="radio-input"><input type="radio" id="priority-3" name="priority" value="3" /> <label
+                            for="priority-3">Medium</label></div>
+                    <div class="radio-input"><input type="radio" id="priority-4" name="priority" value="4" /> <label
+                            for="priority-4">High</label></div>
+                    <div class="radio-input"><input type="radio" id="priority-5" name="priority" value="5" /> <label
+                            for="priority-5">Very High</label></div>
+                </div>
+                <!-- note category -->
+                <h1 class="text-xl my-4">Category</h1>
+                <div class="mb-6">
+                    <select name="category" id="category">
+                        <option value="">Select Category</option>
+                        <option value="home">Home</option>
+                        <option value="hobbies">Hobbies</option>
+                        <option value="work">Work</option>
+                    </select>
+                </div>
+
+                <button onclick="addNote()" class="bg-green-200 p-2 rounded-md" type="button">Add Note</button>
+                <button id="sort-notes" class="bg-blue-200 p-2 rounded-md mt-6" type="button">Sort Notes</button>
+            </div>
+        </form>
+
+    </main>
+    <div id="view-note" class="h-44 w-full bg-green-200"></div>
+
+    <script>
+        function addNote() {
+            // Get user input
+            var category = document.getElementById('category').value;
+            var noteText = document.getElementById('text-note').value;
+            var priority = document.querySelector('input[name="priority"]:checked').value;
+
+            // Validate input
+            if (!noteText.trim()) {
+                alert('Please enter a note before adding.');
+                return;
+            }
+
+            // Create a note card
+            var notesContainer = document.getElementById('notes-container');
+            var noteCard = document.createElement('div');
+            noteCard.className = 'flex items-center gap-5 p-4 rounded-md bg-gray-200 relative';
+
+            if (category === 'home') {
+                noteCard.style.backgroundColor = 'red';
+            } else if (category === 'hobbies') {
+                noteCard.style.backgroundColor = 'blue';
+            } else if (category === 'work') {
+                noteCard.style.backgroundColor = 'green';
+            }
+
+            noteCard.innerHTML = `
+            <div class="h-12 w-12 overflow-hidden rounded-full">
+              <img src="profile.webp" alt="" />
+            </div>
+            <div class="overflow-hidden">
+              <p>${noteText}</p>
+              <p class="absolute top-3 right-4 rounded-full h-8 w-8 p-3 bg-white flex justify-center items-center cursor-pointer">
+                <span>X</span>
+              </p>
+              <span class="priority">${priority}</span>
+              <span class="category">${category}</span>
+            </div>
+          `;
+            notesContainer.appendChild(noteCard);
+
+            // Add click event listener to the remove button
+            noteCard.querySelector('span:first-child').addEventListener('click', function () {
+                notesContainer.removeChild(noteCard);
+            });
+
+            // Clear the input fields
+            document.getElementById('category').value = '';
+            document.getElementById('text-note').value = '';
+        };
+
+        function sortNotesByPriority() {
+            // Get the notes container
+            var notesContainer = document.getElementById('notes-container');
+
+            // Create an array to store the notes
+            var notesArray = [];
+
+            // Iterate through the child nodes of the notes container
+            for (var i = 0; i < notesContainer.childNodes.length; i++) {
+                // Check if the current node is an element (excluding text nodes)
+                if (notesContainer.childNodes[i].nodeType === 1) {
+                    // Get the priority of the current note
+                    var priority = notesContainer.childNodes[i].querySelector('.priority').textContent;
+
+                    // Add the note and its priority to the notes array
+                    notesArray.push({
+                        note: notesContainer.childNodes[i],
+                        priority: parseInt(priority)
+                    });
+                }
+            }
+
+            // Sort the notes array by priority
+            notesArray.sort(function (a, b) {
+                return b.priority - a.priority;
+            });
+
+            // Empty the notes container
+            notesContainer.innerHTML = '';
+
+            // Append the sorted notes to the notes container
+            for (var i = 0; i < notesArray.length; i++) {
+                notesContainer.appendChild(notesArray[i].note);
+            }
+        }
+
+        document.getElementById('sort-notes').addEventListener('click', function () {
+            sortNotesByPriority();
+        });
+    </script>
+</body>
+
+</html>

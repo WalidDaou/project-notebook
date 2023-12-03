@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <title>Notes App</title>
+</head>
+
+<body>
+  <style>
+    .notes,
+    form {
+      height: 100%;
+      width: 100%;
+      max-width: 500px;
+      min-width: 400px;
+      border: 1px solid red;
+    }
+
+    .show-form {
+      display: none;
+    }
+
+    @media screen and (max-width: 800px) {
+      form {
+        display: none;
+      }
+
+      .show-form {
+        position: absolute;
+        background-color: greenyellow;
+        top: 100px;
+        right: 50px;
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        font-size: x-large;
+        cursor: pointer;
+        border-radius: 50%;
+        display: unset;
+      }
+    }
+  </style>
+  <main class="bg-gray-200 flex justify-center items-center h-screen gap-4 p-20 relative">
+    <div class="notes p-4 rounded-md shadow-2xl bg-white">
+      <h1 class="text-xl mb-4">Notes</h1>
+      <div class="notes-container flex flex-col gap-5"></div>
+    </div>
+    <form class="rounded-md shadow-2xl bg-white p-4">
+      <textarea class="text-note border-2 rounded-md w-full bg-gray-200" name="" id="" cols="30" rows="10"></textarea>
+      <!-- note content -->
+      <!-- note priority 1-5 -->
+      <div class="flex flex-col">
+        <style>
+          input[type='radio'] {
+            max-width: 50px;
+            display: inline;
+          }
+        </style>
+        <h1 class="text-xl my-4">Priority</h1>
+        <div class="radio-input">
+          <input type="radio" id="priority-1" name="priority" value="1" /> <label for="priority-1">Very Low</label>
+        </div>
+        <div class="radio-input"><input type="radio" id="priority-2" name="priority" value="2" /> <label
+            for="priority-2">Low</label></div>
+        <div class="radio-input"><input type="radio" id="priority-3" name="priority" value="3" /> <label
+            for="priority-3">Medium</label></div>
+        <div class="radio-input"><input type="radio" id="priority-4" name="priority" value="4" /> <label
+            for="priority-4">High</label></div>
+        <div class="radio-input"><input type="radio" id="priority-5" name="priority" value="5" /> <label
+            for="priority-5">Very High</label></div>
+      </div>
+      <!-- note category -->
+      <h1 class="text-xl my-4">Category</h1>
+      <div>
+        <select name="category" id="category">
+          <option value="">Select Category</option>
+          <option value="home">Home</option>
+          <option value="hobbies">Hobbies</option>
+          <option value="work">Work</option>
+        </select>
+      </div>
+
+      <button onclick="addNote()" class="bg-green-200 p-2 rounded-md" type="button">Add Note</button>
+    </form>
+  </main>
+  <script>
+    // let notesContainer = document.querySelector('.notes-container');
+    // const notes = [
+    //   {
+    //     id: '1',
+    //     content: 'random text 1',
+    //     priority: 1,
+    //     category: 'home',
+    //     profile: 'profile.webp'
+    //   },
+    //   {
+    //     id: '2',
+    //     content: 'random text 2',
+    //     priority: 1,
+    //     category: 'hobbies',
+    //     profile: 'profile.webp'
+    //   },
+    //   {
+    //     id: '3',
+    //     content: 'random text 3',
+    //     priority: 1,
+    //     category: 'work',
+    //     profile: 'profile.webp'
+    //   }
+    // ];
+
+    // updateUINotesContainer();
+    // function updateUINotesContainer() {
+    //   notes.forEach(function (noteItem) {
+    //     let noteHTML = generatNoteHTML(noteItem);
+    //     notesContainer.innerHTML += noteHTML;
+    //   });
+    // }
+
+    // function generatNoteHTML(noteItem) {
+    //   return `
+    //   <div class="flex items-center gap-5 p-4 rounded-md bg-gray-200 relative">
+    //       <div class="h-12 w-12 overflow-hidden rounded-full">
+    //           <img src="${noteItem.profile}" alt="" />
+    //       </div>
+    //       <p>${noteItem.content}</p>
+    //       <p class="absolute top-4 right-4 rounded-full h-8 w-8 p-3 bg-white flex justify-center items-center cursor-pointer"><span>X</span></p>
+    //   </div>
+    //   `;
+    // }
+
+    function addNote() {
+      // Get user input
+      var category = document.getElementById('category').value;
+      var noteText = document.getElementById('text-note').value;
+      var priority = document.querySelector('input[name="priority"]:checked').value;
+
+      // Validate input
+      if (!noteText.trim()) {
+        alert('Please enter a note before adding.');
+        return;
+      }
+
+      // Create a note card
+      var noteCard = document.getElementsByClassName('notes');
+      // noteCard.className = 'note-card';
+      noteCard.innerHTML = `<strong>${category}</strong><p>${noteText}</p><span class="priority">${priority}</span>`;
+
+      // Add the note card to the container
+      var notesContainer = document.getElementById('notes-container');
+      notesContainer.appendChild(noteCard);
+
+      // Clear the input fields
+      document.getElementById('category').value = 'personal';
+      document.getElementById('note').value = '';
+    }
+  </script>
+</body>
+
+</html>
