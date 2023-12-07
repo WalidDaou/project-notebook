@@ -7,189 +7,996 @@
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <title>Notes App</title>
-</head>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Corner Store</title>
 
-<body>
     <style>
-        .notes,
-        form {
-            height: 100%;
-            width: 100%;
-            max-width: 500px;
-            min-width: 400px;
-            border: 1px solid red;
+        * {
+
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        .show-form {
-            display: none;
+        .one {
+
+            position: fixed;
+            z-index: 1;
+
+            width: 100vw;
+
+
         }
 
-        @media screen and (max-width: 800px) {
-            form {
-                display: none;
-            }
 
-            .show-form {
-                position: absolute;
-                background-color: greenyellow;
-                top: 100px;
-                right: 50px;
-                height: 40px;
-                width: 40px;
-                text-align: center;
-                font-size: x-large;
-                cursor: pointer;
-                border-radius: 50%;
-                display: unset;
-            }
+
+
+        .left {
+            margin-left: 0px;
+            padding: 20px;
         }
 
-        /* Add a style for the priority span */
-        .priority {
-            display: inline-block;
+
+        .header img {
+            height: 20px;
+        }
+
+        #left {
+            padding-right: 10px;
+            color: black;
+        }
+
+        #right {
+            padding-right: 20px;
+            margin-right: 0px;
+        }
+
+
+
+        .images {
+
+            position: relative;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            width: 100vw;
+            overflow: hidden;
+            padding-top: 50px;
+            position: relative;
+            background-color: rgb(161, 137, 185);
+
+        }
+
+
+        .images .stuff {
+            display: flex;
+
+            flex-direction: column;
+            position: absolute;
+            left: 20px;
+
+            bottom: 30px;
+
+        }
+
+        .p {
+            font-size: 20px;
+            color: rgb(187, 30, 30);
+        }
+
+        .a {
             margin-top: 5px;
-            padding: 5px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
 
-        /* Fix the styling for radio inputs */
-        input[type='radio'] {
-            max-width: 50px;
-            display: inline;
+        .left-btn {
+            margin-left: 80px;
+            font-size: 20px;
+            border: 2px solid red;
+            height: 40px;
+            width: 60px;
+        }
+
+        .right-btn {
+            margin-right: 80px;
+            font-size: 20px;
+            border: 2px solid red;
+            height: 40px;
+            width: 60px;
+        }
+
+        .buttom {
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+        }
+
+        .aa {
+            display: flex;
+            justify-content: center;
+        }
+
+        .header_two img {
+            width: 20px;
+            background-color: rgb(196, 192, 192);
+
+        }
+
+        .header_two {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: rgb(196, 192, 192);
         }
     </style>
-    <main class="bg-gray-200 flex justify-center items-center h-screen gap-4 p-20 relative">
-        <div class="notes p-4 rounded-md shadow-2xl bg-white overflow-scroll">
-            <h1 class="text-xl mb-4">Notes</h1>
-            <div class="notes-container flex flex-col gap-5" id="notes-container"></div>
-        </div>
-        <form class="rounded-md shadow-2xl bg-white p-4 overflow-scroll">
-            <textarea class="text-note border-2 rounded-md w-full h-40 bg-gray-200" id="text-note" cols="30"
-                rows="10"></textarea>
-            <!-- note content -->
-            <!-- note priority 1-5 -->
-            <div class="flex flex-col">
-                <h1 class="text-xl my-4">Priority</h1>
-                <div class="radio-input">
-                    <input type="radio" id="priority-1" name="priority" value="1" checked /> <label
-                        for="priority-1">Very Low</label>
-                    <div class="radio-input"><input type="radio" id="priority-2" name="priority" value="2" /> <label
-                            for="priority-2">Low</label></div>
-                    <div class="radio-input"><input type="radio" id="priority-3" name="priority" value="3" /> <label
-                            for="priority-3">Medium</label></div>
-                    <div class="radio-input"><input type="radio" id="priority-4" name="priority" value="4" /> <label
-                            for="priority-4">High</label></div>
-                    <div class="radio-input"><input type="radio" id="priority-5" name="priority" value="5" /> <label
-                            for="priority-5">Very High</label></div>
-                </div>
-                <!-- note category -->
-                <h1 class="text-xl my-4">Category</h1>
-                <div class="mb-6">
-                    <select name="category" id="category">
-                        <option value="">Select Category</option>
-                        <option value="home">Home</option>
-                        <option value="hobbies">Hobbies</option>
-                        <option value="work">Work</option>
-                    </select>
-                </div>
 
-                <button onclick="addNote()" class="bg-green-200 p-2 rounded-md" type="button">Add Note</button>
-        </form>
+    <style>
+        #im {
 
-    </main>
-    <div id="view-note" class="h-44 w-full bg-green-200"></div>
+            display: flex;
+            flex-direction: column;
 
-    <script>
-        function addNote() {
-            // Get user input
-            var category = document.getElementById('category').value;
-            var noteText = document.getElementById('text-note').value;
-            var priority = document.querySelector('input[name="priority"]:checked').value;
+            height: 300px;
+            width: 240px;
+            overflow: hidden;
+        }
 
-            // Validate input
-            if (!noteText.trim()) {
-                alert('Please enter a note before adding.');
-                return;
+        .under_card {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .buttom_z {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 30px
+        }
+
+        .zz {
+            display: flex;
+            margin-bottom: 20px;
+            font-size: x-large;
+        }
+
+        .ttt {
+            display: flex;
+            justify-content: center;
+        }
+
+        .under_card img {
+            width: 20px;
+        }
+
+
+        @media only screen and (max-width: 580px) {
+            .card {
+                width: 150px;
+                overflow: hidden;
+                margin: 5px;
             }
 
-            // Create a note card
-            var notesContainer = document.getElementById('notes-container');
-            var noteCard = document.createElement('div');
-            noteCard.className = 'flex items-center gap-5 p-4 rounded-md bg-gray-200 relative';
-
-
-            if (category === 'home') {
-                noteCard.style.backgroundColor = 'red';
-            } else if (category === 'hobbies') {
-                noteCard.style.backgroundColor = 'blue';
-            } else if (category === 'work') {
-                noteCard.style.backgroundColor = 'greem';
+            .cards {
+                gap: 10px
             }
 
-            noteCard.innerHTML = `
-        <div class="h-12 w-12 overflow-hidden rounded-full">
-          <img src="profile.webp" alt="" />
-        </div>
-        <div class="overflow-hidden">
-        <p>${noteText}</p>
-        <p class="absolute top-3 right-4 rounded-full h-8 w-8 p-3 bg-white flex justify-center items-center cursor-pointer">
-          <span>X</span>
-        </p>
-        <span class="priority">${priority}</span>
-        <span class="category">${category}</span>
-        </div>
-      `;
-            notesContainer.appendChild(noteCard);
-
-            // Add click event listener to the remove button
-            noteCard.querySelector('span:last-child').addEventListener('click', function () {
-                notesContainer.removeChild(noteCard);
-            });
-
-            // Clear the input fields
-            document.getElementById('category').value = '';
-            document.getElementById('text-note').value = '';
-        };
-        function sortNotesByPriority() {
-            // Get the notes container
-            var notesContainer = document.getElementById('notes-container');
-
-            // Create an array to store the notes
-            var notesArray = [];
-
-            // Iterate through the child nodes of the notes container
-            for (var i = 0; i < notesContainer.childNodes.length; i++) {
-                // Check if the current node is an element (excluding text nodes)
-                if (notesContainer.childNodes[i].nodeType === 1) {
-                    // Get the priority of the current note
-                    var priority = notesContainer.childNodes[i].querySelector('.priority').textContent;
-
-                    // Add the note and its priority to the notes array
-                    notesArray.push({
-                        note: notesContainer.childNodes[i],
-                        priority: parseInt(priority)
-                    });
-                }
+            .header {
+                margin: 0%;
             }
 
-            // Sort the notes array by priority
-            notesArray.sort(function (a, b) {
-                return b.priority - a.priority;
-            });
+            .images {
+                min-width: 200px;
+            }
 
-            // Empty the notes container
-            notesContainer.innerHTML = '';
+            .right-btn {
+                margin-right: 15px;
+            }
 
-            // Append the sorted notes to the notes container
-            for (var i = 0; i < notesArray.length; i++) {
-                notesContainer.appendChild(notesArray[i].note);
+            .left-btn {
+                margin-left: 15px;
+            }
+
+            .buttom_z {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .text {
+                size: 50%;
+                justify-content: center;
+                align-items: center;
             }
         }
-        document.getElementById('sort-notes').addEventListener('click', function () {
-            sortNotesByPriority();
+
+
+
+        .like-button {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+
+
+        .one img {
+            width: 20px;
+        }
+
+        .red {
+            color: #ff0000;
+        }
+
+        .border-1 {
+            border: 2px solid black;
+        }
+
+@media screen {
+    
+}
+
+
+
+
+
+    </style>
+</head>
+
+<body class="absolute">
+    <div class="one">
+        <!-- justify-evenly flex   bg-red-600 items-centert ext-center w-screen items-center justify-evenly -->
+        <div class="flex fixed bg-green-200 w-screen">
+            <div class="left">
+                <a id="left" href="#">shop</a>
+                <a id="left" href="#">about</a>
+            </div>
+            <div class="logo">
+                <img src="image\lock.png" alt="">
+
+            </div>
+            <div class="right">
+                <a href="#"><img id="right" src="image\pp.png" alt=""> </a>
+                <a href="#"><img id="right" src="image\cart.webp" alt=""></a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="images">
+        <div class="aa">
+            <img  src="image\1.jpg" alt="">
+        </div>
+        <div class="stuff">
+            <p class="p">stuff stuff the absolute stuff </p>
+            <a class="a" href="#">view more</a>
+        </div>
+        <div class="buttom">
+            <button class="left-btn" onclick="prevImage()">
+
+                -</button>
+            <button class="right-btn" onclick="nextImage()">+</button>
+        </div>
+    </div>
+    
+    <!-- <body class="relative">
+        <label for="max-price">Max Price:</label>
+        <input type="number" name="max-price" id="max-price" />
+        <label for="search-term">Search Term:</label>
+        <input type="text" name="search-term" id="search-term" />
+        <span class="sort-asc p-2 bg-gray-200">asc &#x2191;</span>
+        <span class="sort-desc p-2 bg-gray-200">desc &#8595;</span>
+        <div class="cards-grid flex flex-wrap justify-center items-center gap-5"></div>
+        <div class="flex justify-end p-20">
+          <button onclick="showCart()" class="checkout p-4 bg-green-200">Checkout</button>
+        </div>
+      
+        <div class="cart absolute h-full w-full hidden top-0 bg-white p-20">
+          <div class="flex justify-between px-20">
+            <h2>Cart</h2>
+            <p onclick="hideCart()">X</p>
+          </div>
+          <div class="cart-contents">
+          </div>
+          <div class="flex justify-end px-20">
+            <div class="cart-total">
+              $0
+            </div>
+          </div>
+        </div> -->
+    
+    
+    
+    
+    
+    
+    
+    <div class="header_two relative">
+        <p class="right_two">Store</p>
+        <div>
+            <p>Store</p>
+            <i class="fas fa-search"></i>
+            <div class="hidden flex gap-2 absolute right-10 top-10 bg-white p-5 border-black border-1"
+                id="store-search">
+                
+                <label for="max-price">Max Price:</label>
+                <input class=" border-black border-2"  type="number" name="max-price" id="max-price" />
+                <label for="search-term">Search Term:</label>
+                <input class=" border-black border-2" type="text" name="search-term" id="search-term" />
+                <span class="sort-asc p-2 bg-gray-200">asc &#x2191;</span>
+                <span class="sort-desc p-2 bg-gray-200">desc &#8595;</span>
+                <p id="store-search-close">x</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-wrap justify-center items-center gap-5 w-screen cards-grid "></div>
+        <div class=" justify-end p-20">
+            <button onclick="showCart()" class="checkout p-4 bg-green-200">Checkout</button>
+          </div>
+          <div class="cart absolute h-full w-full hidden top-0 bg-white p-20">
+            <div class="flex justify-between px-20">
+              <h2>Cart</h2>
+              <p onclick="hideCart()">X</p>
+            </div>
+            <div class="cart-contents">
+            </div>
+            <div class="flex justify-end px-20">
+              <div class="cart-total">
+                $0
+              </div>
+            </div>
+          </div>
+       <!-- - <div class="card">
+            <div id="im">
+                <img src="image\w.jpg" alt="">
+            </div>
+            <div class="under_card">
+                <p>product Name</p>
+
+                <div class="like-button">
+                    <i class="far fa-heart"></i>
+                </div>
+            </div>
+            <span>$9.99</span>
+        </div>
+
+        <div class="card">
+            <div id="im">
+                <img src="image\x.jpg" alt="">
+            </div>
+            <div class="under_card">
+                <p>product Name</p>
+                <div class="like-button">
+                    <i class="far fa-heart"></i>
+                </div>
+            </div>
+            <span>$9.99</span>
+        </div>
+        <div class="card">
+            <div id="im">
+                <img src="image\z.jpg" alt="">
+            </div>
+            <div class="under_card">
+                <p>phone</p>
+                <div class="like-button">
+                    <i class="far fa-heart"></i>
+                </div>
+            </div>
+            <span>$199.99</span>
+        </div>
+        <div class="card">
+            <div id="im">
+                <img src="image\r.jpg" alt="">
+            </div>
+            <div class="under_card">
+                <p>t-shirt</p>
+                <div class="like-button">
+                    <i class="far fa-heart"></i>
+                </div>
+            </div>
+            <span>$29.99</span>
+        </div>
+        <div class="card">
+            <div id="im">
+                <img src="image\k.jpg" alt="">
+            </div>
+            <div class="under_card">
+                <p>car</p>
+                <div class="like-button">
+                    <i class="far fa-heart"></i>
+                </div>
+            </div>
+            <span>$999.99</span>
+        </div>
+        <div class="card">
+            <div id="im">
+                <img src="image\he.jpg" alt="">
+            </div>
+            <div class="under_card">
+                <p>pen</p>
+                <div class="like-button">
+                    <i class="far fa-heart"></i>
+                </div>
+            </div>
+            <span>$9.99</span>
+        </div>
+        <div class="card">
+            <div id="im">
+                <img src="image\d.webp" alt="">
+            </div>
+            <div class="under_card">
+                <p>shirt</p>
+                <div class="like-button">
+                    <i class="far fa-heart"></i>
+                </div>
+            </div>
+            <span>$19.99</span>
+        </div>
+        <div class="card">
+            <div id="im">
+                <img src="image\3.webp" alt="">
+            </div>
+            <div class="under_card">
+                <p>stuff</p>
+                <div class="like-button">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <span>$99.99</span>
+        </div> --> 
+
+
+
+
+
+
+
+
+    <!-- </div> -->
+    <div class="text">
+        <h2>about</h2>
+        <p>wwwwwwwwwww wwwwwwwww wwwwwwwwwwwwwwwww wwwwwwwwww wwwwwwwwwwwwww wwwwwwwwwwwwwwwwww wwwwwwwwwwwwww
+            wwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwww wwwwwwwwwwwwwwwww
+            wwwwwwwwwwwwwwwwwwwwwwwwww
+            wwwwwww
+
+        </p>
+
+
+    </div>
+    <div class="buttom_z">
+        <div class="buttom_one">
+            <div class="zz">
+                <h3>About</h3>
+            </div>
+            <p class="yi">In the vast expanse of nothingness, where the void embraces <br> the absence of substance, a
+                silent symphony
+                of emptiness unfolds. <br> No vibrant hues paint the canvas of nonexistence, a0d the echoes of <br>
+                nonexistent
+                events resonate in the hollow corridors of nothing. <br> A void devoid of form, structure, or meaning,
+                where
+
+            </p>
+        </div>
+        <div class="buttom_two">
+            <div class="zz">
+                <h3>Social</h3>
+            </div>
+            <p class="yi">add social links</p>
+        </div>
+    </div>
+
+
+    <script>
+
+        let imageSources = [
+
+            "images/1.jpg",
+            "images/2.jpg",
+            "images/3.webp",
+            "image/4.webp"
+        ];
+
+        let imgIndex = 0;
+        updateUI();
+
+        function moveRight() {
+            //   move pointer one step to the right 
+            imgIndex = imgIndex + 1
+            // if(imgIndex>3){imgIndex=0} or fik 
+            if (imgIndex > 3) {
+                imgIndex = imageSources.length - 4
+            }
+            updateUI();
+
+        }
+        function moveLeft() {
+            imgIndex = imgIndex - 1
+            // if(imgIndex<0){imgIndex=3} or fik
+            if (imgIndex < 0) {
+                imgIndex = imageSources.length - 1
+            }
+            updateUI();
+        }
+
+        function updateUI() {
+            document.querySelector('.images img').src = imageSources[imgIndex]
+        };
+
+        let rightbtn = document.querySelector('.right-btn');
+        rightbtn.addEventListener('click', moveRight);
+
+        let leftbtn = document.querySelector('.left-btn');
+        leftbtn.addEventListener('click', moveLeft);
+
+
+      
+        
+        let products = [
+            { img: "images/z.jpg", name: "phone", price: "199.99", id:"product_1" },
+            { img: "images/R.jpg", name: "t-shirt", price: "29.99", id:"product_2" },
+            { img: "images/k.jpg", name: "car", price: "999.99", id:"product_3" },
+            { img: "images/he.jpg", name: "pen", price: "9.99", id:"product_4" },
+            { img: "images/3.webp", name: "shirt", price: "19.99", id:"product_5"},
+            { img: "images/x.jpg", name: "stuff", price: "99.99", id:"product_6" }
+        ];
+
+        function populateCardsGrid(cardsArray) {
+            let cardsGrid = document.querySelector('.cards-grid');
+            cardsGrid.innerHTML = '';
+
+            cardsArray.forEach(function (card) {
+                let cardHTML = createHTMLProductCard(card);
+                cardsGrid.innerHTML += cardHTML;
+            });
+        }
+        populateCardsGrid(products);
+
+        function createHTMLProductCard(product) {
+            let cardHTML = `
+        <div class="card w-52 shadow-md">
+            <div class="img-wrapper border h-52 w-52 overflow-hidden">
+              <img class="h-full max-w-none" src="${product.img}" alt="" />
+            </div>
+            <div class="card-details p-2">
+              <div class="flex justify-between items-center">
+                <h3 class="product-name">${product.name}</h3>
+                <div class="like-button">
+                    <i class="fas fa-heart"></i>
+                </div>
+              </div>
+              <div class="flex justify-between items-center mt-2">
+                <div class="price">$${product.price}</div>
+                <button onclick="addItemToCart('${product.id}');console.log(1)" data-product-identifier="${product.id}" class="bg-blue-200 p-1">Add To Cart</button>
+              </div>
+            </div>
+        </div>
+        `;
+        return cardHTML;
+        }
+
+       
+        const hearts = document.querySelectorAll('.like-button');
+    console.log(hearts);
+    // eli (htmlElemnt) fiyi sameya metel ma badi
+    function addEventHandeler(htmlElement) {
+      htmlElement.addEventListener('click', function () {
+        htmlElement.classList.toggle('red')
+      })
+    };
+
+
+        hearts.forEach(addEventHandeler);
+
+        function filterProducts(products, maxPrice, searchTerm) {
+            let filteredProducts = products.filter(function (product) {
+                if (maxPrice <= 0 || isNaN(maxPrice)) {
+                    return true;
+                }
+
+                if (parseFloat(product.price) <= parseFloat(maxPrice)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            filteredProducts = filteredProducts.filter(function (product) {
+                if (product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            return filteredProducts;
+        }
+
+        let maxPriceInputElement = document.querySelector('#max-price');
+        let searchTermElement = document.querySelector('#search-term');
+
+        maxPriceInputElement.addEventListener('input', function () {
+            let filteredProducts = filterProducts(products, maxPriceInputElement.value, searchTermElement.value);
+            populateCardsGrid(filteredProducts);
         });
+
+        searchTermElement.addEventListener('input', function () {
+            populateCardsGrid(filterProducts(products, maxPriceInputElement.value, searchTermElement.value));
+        });
+
+ 
+        // managing search 
+        // let searchIcon = document.querySelector('.fa-search') 
+        // searchIcon.addEventListener('click',function(){
+        // storeSearch.classList.remove('hidden')
+        // })
+
+        // let storeSearch = document.querySelector{'#store-search-close'}
+        // let closeSearchIncom =document.querySelector('#store')
+
+        let storeSearch = document.querySelector('#store-search');
+        // get search icon
+        let searchIcon = document.querySelector('.fa-search');
+        function showSearch() {
+            storeSearch.classList.remove('hidden');
+        }
+        searchIcon.addEventListener('click', showSearch);
+
+        let closeSearchIcon = document.querySelector('#store-search-close');
+        function hideSearch() {
+            storeSearch.classList.add('hidden');
+        }
+        closeSearchIcon.addEventListener('click', hideSearch);
+
+
+        // function filterStoreItems() {
+        //     let searchValue = searchInput.value;
+        //     let maxPrice = priceLimitElement.value;
+        //     if (isNaN(maxPrice)) {
+        //         maxPrice = 0;
+        //     }
+
+        //     // loop over all cards
+        //     cards.forEach(function (element) {
+        //         const cardInnerText = element.innerText;
+        //         const cardInnerTextParts = cardInnerText.split('$');
+        //         const cardPrice = parseFloat(cardInnerTextParts[1]);
+        //         // above is equivalent to const cardPrice = element.innerText.split('$')[1]
+
+        //         // either add or remove class hidden
+        //         // if card text content matches search value, remove class hidden
+        //         // hide the ones that are not matching search
+        //         // & show the matching ones
+        //         if (element.innerText.toLowerCase().includes(searchValue.toLowerCase()) && (NaN(maxPrice) || cardPrice < maxPrice)) {
+        //             console.log('entered block to show card', cardPrice, maxPrice);
+        //             element.classList.remove('hidden');
+        //         } else {
+        //             element.classList.add('hidden');
+        //         }
+        //     });
+        // }
+        // const cards = document.querySelectorAll('.cards-grids');
+        // store search filtering
+        // let searchInput = document.querySelector('#store-search input[type=text]');
+        // searchInput.addEventListener('input', filterStoreItems);
+        // // get reference of the price limit input
+        // const priceLimitElement = document.querySelector('#price-limit');
+        // priceLimitElement.addEventListener('change', filterStoreItems);
+
+
+
+        // Array of card data
+       
+
+
+    function sortPriceAsc(arrayOfItems) {
+      let sortedArr = arrayOfItems.sort(function (prod1, prod2) {
+        return prod1.price - prod2.price;
+      });
+
+      return sortedArr;
+    }
+
+    function sortPriceDesc(arrayOfItems) {
+      let sortedArr = arrayOfItems.sort(function (prod1, prod2) {
+        return prod2.price - prod1.price;
+      });
+
+      return sortedArr;
+    }
+    document.querySelector('.sort-asc').addEventListener('click', function () {
+      let sortedArr = sortPriceAsc(products)
+      populateCardsGrid(sortedArr)
+    })
+    document.querySelector('.sort-desc').addEventListener('click', function () {
+      let sortedArr = sortPriceDesc(products)
+      populateCardsGrid(sortedArr)
+    })
+
+ 
+
+    let cart = [];
+      
+      function addItemToCart (productId){
+        // add product to cart
+        cart.push(productId)
+        updateCartContentsUI()
+        updateCartTotalUI()
+      }
+      
+      function removeItemFromCart(productID){
+        let updatedCart = cart.filter(function(cartItemID){
+          return cartItemID !== productID
+        })
+        cart = updatedCart
+        updateCartContentsUI()
+        updateCartTotalUI()
+      }
+      
+      // select div with class cart-contents
+      let cartContentsElement = document.querySelector('.cart-contents')
+      
+      // select total price UI element
+      let totalPriceUIElement = document.querySelector('.cart-total')
+      function updateCartTotalUI(){
+        
+        let totalPrice = 0;
+        // calculcate total price
+        cart.forEach(function(cartItemID){
+          let product = products.find(function(product){
+            return product.id === cartItemID
+          })
+          
+          if(!product){
+            return false;
+          }
+          
+          let price = product.price;
+          totalPrice = totalPrice + price;
+        })
+        
+        // replace HTML
+        totalPriceUIElement.innerHTML = `$${totalPrice}`
+      }
+      function updateCartContentsUI (){
+        cartContentsElement.innerHTML = '';
+        cart.forEach(function(cartItem){
+          let cartItemUIElement = generateCartItemHTML(cartItem)
+          
+          if(cartItemUIElement == false){
+            // TODO display message telling user that product was not found
+            console.log("item not found")
+          } else {
+            cartContentsElement.innerHTML = cartContentsElement.innerHTML + cartItemUIElement
+          }
+        })
+      }
+      
+      function generateCartItemHTML (itemID){
+        let product = products.find(function(product){
+          return product.id === itemID
+        })
+        
+        if (!product){
+          return false;
+        }
+        
+        let cartItemHTML = `
+          <div class="cart-item flex shadow-md">
+              <div class="cart-item-img-wrapper border h-44 w-44 overflow-hidden">
+                <img class="h-full" src="${product.img}" alt="" />
+              </div>
+              <div class="cart-item-details p-2">
+                <h3 class="product-name">${product.name}</h3>
+                <div class="price">$${product.price}</div>
+              </div>
+              <button onclick="removeItemFromCart('${product.id}')">Remove</button>
+          </div>
+        `
+        return cartItemHTML;
+      }
+      
+      let cartElement = document.querySelector('.cart')
+      // show cart UI when user click on checkout
+      function showCart (){
+        // select cart element
+        cartElement.classList.remove('hidden')
+      }
+      
+      function hideCart(){
+        cartElement.classList.add('hidden')
+      }
+
+    //   function filterProducts(products, maxPrice, searchTerm) {
+    //     // filter by price
+    //     let filteredProducts = products.filter(function (product) {
+    //       if (maxPrice <= 0 || isNaN(maxPrice)) {
+    //         return true;
+    //       }
+
+    //       // product.price
+    //       if (product.price < maxPrice) {
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     });
+
+    //     // filter by search
+    //     filteredProducts = filteredProducts.filter(function (product) {
+    //       if (product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     });
+
+    //     return filteredProducts;
+    //   }
+    
+    //   let maxPriceInputElement = document.querySelector('#max-price');
+    //   let searchTermElement = document.querySelector('#search-term');
+
+    //   maxPriceInputElement.addEventListener('input', function () {
+    //     let filteredProducts = filterProducts(products, maxPriceInputElement.value, searchTermElement.value);
+    //     populateProductsGrid(filteredProducts);
+    //   });
+
+    //   searchTermElement.addEventListener('input', function () {
+    //     populateProductsGrid(filterProducts(products, maxPriceInputElement.value, searchTermElement.value));
+    //   });
+     
+
+    //   function sortPriceAsc(arrayOfItems) {
+    //     let sortedArr = arrayOfItems.sort(function (prod1, prod2) {
+    //       return prod1.price - prod2.price;
+    //     });
+
+    //     return sortedArr;
+    //   }
+      
+    //   function sortPriceDesc (arrayOfItems){
+    //     let sortedArr = arrayOfItems.sort(function (prod1, prod2) {
+    //       return prod2.price - prod1.price;
+    //     });
+
+    //     return sortedArr;
+    //   }
+    //   document.querySelector('.sort-asc').addEventListener('click',function(){
+    //     let sortedArr = sortPriceAsc(products)
+    //     populateProductsGrid(sortedArr)
+    //   })
+    //   document.querySelector('.sort-desc').addEventListener('click', function(){
+    //     let sortedArr = sortPriceDesc(products)
+    //     populateProductsGrid(sortedArr)
+    //   })
+        // Function to populate the cards grid with an array of card objects
+       
+        // function createCard(title, content) {
+        //     const card = document.getElementById('card');
+        //     card.classList.add('card');
+        //     card.innerHTML = `<h3>${title}</h3><p>${content}</p>`;
+        //     return card;
+        // }
+
+        // // Function to render cards in the grid
+        // function renderCards() {
+        //     const cardGrid = document.querySelector('.cards-Grid');
+
+        //     cardData.forEach((cardInfo) => {
+        //         const card = createCard(cardInfo.imgSrc, cardInfo.title, cardInfo.content);
+        //         cardGrid.appendChild(card);
+        //     });
+        // }
+
+        // Call the renderCards function when the page loads
+
+
+
+
+
+
+        // Function to create a card element
+        // function createCard(data) {
+        //     const card = document.createElement("div");
+        //     card.className = "card";
+
+        //     const imageContainer = document.createElement("div");
+        //     imageContainer.id = "im";
+        //     const image = document.createElement("img");
+        //     image.src = data.imgSrc;
+        //     image.alt = data.title;
+        //     imageContainer.appendChild(image);
+
+        //     const underCard = document.createElement("div");
+        //     underCard.className = "under_card";
+
+        //     const title = document.createElement("p");
+        //     title.textContent = data.title;
+
+        //     const likeButton = document.createElement("div");
+        //     likeButton.className = "like-button";
+        //     likeButton.innerHTML = '<i class="far fa-heart"></i>';
+
+        //     underCard.appendChild(title);
+        //     underCard.appendChild(likeButton);
+
+        //     const price = document.createElement("span");
+        //     price.textContent = data.price;
+
+        //     card.appendChild(imageContainer);
+        //     card.appendChild(underCard);
+        //     card.appendChild(price);
+
+        //     return card;
+        // }
+
+        // // Function to add cards to the container
+        // function addCardsToContainer(containerId, cardDataArray) {
+        //     const container = document.getElementById(containerId);
+
+        //     cardDataArray.forEach(function (data) {
+        //         const card = createCard(data);
+        //         container.appendChild(card);
+        //     });
+        // }
+
+        // // Call the function to add cards to the container
+        // addCardsToContainer("cards-container", cardData);
+
+        // const image = document.querySelector('.aa');
+        // let currentimage = img.src = "images\orlf.webp"
+        // updateUI()
+
+        // function updateUI() {
+        //     image.innerHTML = currentimage
+        // }
+
+        // function add () {
+        //     currentimage = imageSources[0]
+        //     updateUI()
+        // }
+
+
+
+        // function updateUI() {
+        // image.innerHTML = `<img src="${imageSources[currentIndex]}" alt="">`;
+        // }
+
+        // function prevImage() {
+        //     currentIndex = (currentIndex - 1 + imageSources.length) % imageSources.length;
+        //     updateUI();
+        // }
+
+        // function nextImage() {
+        //     currentIndex = (currentIndex + 1) % imageSources.length;
+        //     updateUI();
+        // }
+        // updateUI();
+
+
+
+
+
+
+
+
+
+
 
     </script>
 </body>
